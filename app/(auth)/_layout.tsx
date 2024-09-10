@@ -6,7 +6,7 @@ import { Colors } from '@/constants/Colors'
 export default function AuthRootLayout() {
 
   return (
-    <SafeAreaView className='flex-1'>
+    <SafeAreaView className='flex-1 bg-appPurple'>
       <Stack
         screenOptions={{
           headerStyle: {
@@ -17,7 +17,7 @@ export default function AuthRootLayout() {
       >
         <Stack.Screen name='sign-in'
           options={{
-            headerShown: true,
+            headerShown: false,
             title: 'Sign In',
           }}
         />
