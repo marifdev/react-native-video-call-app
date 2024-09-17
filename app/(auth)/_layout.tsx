@@ -1,19 +1,17 @@
 import React from 'react'
-import { Stack } from 'expo-router'
+import { Redirect, Stack } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Colors } from '@/constants/Colors'
+import { useAuth } from '@clerk/clerk-expo'
 
-export default function AuthRootLayout() {
+export default function AuthRoutesLayout() {
+  const { isSignedIn } = useAuth()
 
+  if (isSignedIn) {
+    return <Redirect href={'/(call)'} />
+  }
   return (
     <SafeAreaView className='flex-1 bg-appPurple'>
       <Stack
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: Colors.tabBarActiveTintColor,
-          },
-          headerTintColor: '#fff',
-        }}
       >
         <Stack.Screen name='sign-in'
           options={{
@@ -23,10 +21,6 @@ export default function AuthRootLayout() {
         />
         <Stack.Screen name='sign-up'
           options={{
-            headerStyle: {
-              backgroundColor: Colors.tabBarActiveTintColor,
-            },
-            headerTintColor: '#fff',
             title: 'Create a new account',
             headerBackTitle: 'Sign In',
 

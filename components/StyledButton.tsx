@@ -15,10 +15,10 @@ const StyledButton = ({
     <TouchableOpacity
       onPress={onPress}
       style={style}
-      className='w-full p-3 bg-white rounded-md'
+      className='w-full p-3 bg-indigo-600 rounded-md'
     >
       <Text
-        className='text-base font-bold text-center text-appPurple'
+        className='text-base font-bold text-center text-white'
       >{title}</Text>
     </TouchableOpacity>
   )

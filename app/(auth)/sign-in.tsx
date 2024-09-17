@@ -4,6 +4,7 @@ import { Text, TextInput, Button, View, Alert, KeyboardAvoidingView, Platform } 
 import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
 import StyledButton from '@/components/StyledButton'
+import SignInWithOAuth from '@/components/SignInWithOAuth'
 
 export default function Page() {
   const { signIn, setActive, isLoaded } = useSignIn()
@@ -40,36 +41,51 @@ export default function Page() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      className='justify-center flex-1 gap-2 p-5 bg-appPurple'
+      className='justify-center flex-1 gap-2 p-5 bg-white'
     >
-      <MaterialIcons name='video-chat' size={160} color='white'
-        className='self-center w-full'
-      />
-      <TextInput
-        className='p-5 bg-white rounded-lg'
-        autoCapitalize="none"
-        value={emailAddress}
-        placeholder="Email..."
-        onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
-      />
-      <TextInput
-        className='p-5 bg-white rounded-lg'
-        value={password}
-        placeholder="Password..."
-        secureTextEntry={true}
-        onChangeText={(password) => setPassword(password)}
-      />
-      {/* divider */}
       <View
-        className='my-5 border-b border-white'
-      />
-      <StyledButton title='Sign In' onPress={onSignInPress} />
-      <View>
-        <Text>Don't have an account?</Text>
-        <Link href="/sign-up">
-          <Text>Sign up</Text>
-        </Link>
+        className='flex items-center justify-center flex-1'
+      >
+        <MaterialIcons name='video-chat' size={150} color='#4f46e5' />
       </View>
+      <View
+        className='flex-1'
+      >
+        <TextInput
+          className='p-5 mb-2 border-2 border-indigo-600 rounded-lg'
+          autoCapitalize="none"
+          value={emailAddress}
+          placeholder="Email..."
+          onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
+        />
+        <TextInput
+          className='p-5 border-2 border-indigo-600 rounded-lg'
+          value={password}
+          placeholder="Password..."
+          secureTextEntry={true}
+          onChangeText={(password) => setPassword(password)}
+        />
+        <View
+          className='my-5 border-b border-indigo-600'
+        />
+        <StyledButton title='Sign In' onPress={onSignInPress} />
+
+        <Text
+          className='my-3 font-bold text-center text-indigo-600'
+        >OR</Text>
+        <SignInWithOAuth />
+        <View
+          className='flex flex-row justify-center mt-5'
+        >
+          <Text
+          >Don't have an account? </Text>
+          <Link
+            href='/(auth)/sign-up'
+            className='font-bold text-blue-500 underline'
+          >Sign Up</Link>
+        </View>
+      </View>
+
     </KeyboardAvoidingView>
   )
 }

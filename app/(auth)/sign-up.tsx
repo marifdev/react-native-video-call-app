@@ -1,7 +1,8 @@
 import * as React from 'react'
-import { TextInput, Button, View } from 'react-native'
+import { TextInput, Button, View, KeyboardAvoidingView, Platform, Alert, Text } from 'react-native'
 import { useSignUp } from '@clerk/clerk-expo'
 import { useRouter } from 'expo-router'
+import StyledButton from '@/components/StyledButton'
 
 export default function SignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp()
@@ -29,7 +30,7 @@ export default function SignUpScreen() {
     } catch (err: any) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
-      console.error(JSON.stringify(err, null, 2))
+      Alert.alert('Whoops', err.errors[0].message)
     }
   }
 
@@ -52,35 +53,52 @@ export default function SignUpScreen() {
     } catch (err: any) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
-      console.error(JSON.stringify(err, null, 2))
+      Alert.alert('Whoops', 'Invalid code')
     }
   }
 
   return (
-    <View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      className='justify-center flex-1 gap-2 p-5 bg-white'
+    >
       {!pendingVerification && (
         <>
           <TextInput
+            className='p-5 mb-2 border-2 border-indigo-600 rounded-lg'
             autoCapitalize="none"
             value={emailAddress}
             placeholder="Email..."
-            onChangeText={(email) => setEmailAddress(email)}
+            onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
           />
           <TextInput
+            className='p-5 border-2 border-indigo-600 rounded-lg'
             value={password}
             placeholder="Password..."
             secureTextEntry={true}
             onChangeText={(password) => setPassword(password)}
           />
-          <Button title="Sign Up" onPress={onSignUpPress} />
+          <View
+            className='my-5 border-b border-indigo-600'
+          />
+          <StyledButton title='Sign Up' onPress={onSignUpPress} />
         </>
       )}
       {pendingVerification && (
         <>
-          <TextInput value={code} placeholder="Code..." onChangeText={(code) => setCode(code)} />
-          <Button title="Verify Email" onPress={onPressVerify} />
+          <Text
+            className='text-lg text-center'
+          >
+            We've sent a verification code to your email. Please enter it below.
+          </Text>
+          <TextInput
+            className='p-5 my-5 border-2 border-indigo-600 rounded-lg '
+            value={code}
+            placeholder="Code..."
+            onChangeText={(code) => setCode(code)} />
+          <StyledButton title="Verify Email" onPress={onPressVerify} />
         </>
       )}
-    </View>
+    </KeyboardAvoidingView>
   )
 }
